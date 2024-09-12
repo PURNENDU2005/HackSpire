@@ -70,24 +70,19 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        form {
-            margin-bottom: 1em;
+        ul {
+            list-style-type: none;
+            padding: 0;
         }
 
-        label {
-            display: block;
-            margin-top: 0.5em;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        input[type="date"] {
-            width: 100%;
+        ul li {
+            background-color: #b2dfdb;
+            margin: 0.5em 0;
             padding: 0.5em;
-            margin-top: 0.2em;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         button {
@@ -103,21 +98,6 @@
 
         button:hover {
             background-color: #00332e;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        ul li {
-            background-color: #b2dfdb;
-            margin: 0.5em 0;
-            padding: 0.5em;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
         .delete-btn {
@@ -149,33 +129,46 @@
             }
         }
 
-        /* Additional Styling for History Section */
-        .history-process {
-            background-color: #ffffff;
-            padding: 1em;
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 2em;
             border-radius: 5px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .modal-content label {
+            display: block;
             margin-bottom: 1em;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .history-process h3 {
-            margin-top: 0;
-            color: #004d40;
-        }
-
-        .history-process ul {
-            margin-top: 0.5em;
-        }
-
-        .history-process li {
-            background-color: #e0f2f1;
-            margin: 0.3em 0;
+        .modal-content input {
+            width: 100%;
             padding: 0.5em;
-            border-radius: 4px;
+            margin-bottom: 1em;
         }
 
-        .history-process p {
-            margin: 0.5em 0 0 0;
+        .modal-content button {
+            background-color: #004d40;
+            color: white;
+            border: none;
+            padding: 0.7em 1.5em;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 1em;
         }
     </style>
 </head>
@@ -194,28 +187,7 @@
             <!-- Form Section -->
             <div class="dashboard-form">
                 <h2>Add Farming Activity</h2>
-                <form id="farmingForm">
-                    <label for="crop">Crop Planted:</label>
-                    <input type="text" id="crop" name="crop" required>
-
-                    <label for="fertilizer">Fertilizer Used:</label>
-                    <input type="text" id="fertilizer" name="fertilizer" required>
-
-                    <label for="cost">Cost (in USD):</label>
-                    <input type="number" id="cost" name="cost" required>
-
-                    <label for="startDate">Start Date:</label>
-                    <input type="date" id="startDate" name="startDate" required>
-
-                    <label for="endDate">End Date:</label>
-                    <input type="date" id="endDate" name="endDate" required>
-
-                    <label for="sellPrice">Selling Price (in USD):</label>
-                    <input type="number" id="sellPrice" name="sellPrice" required>
-
-                    <button type="submit">Add Activity</button>
-                </form>
-
+                <button id="addActivityButton">Add New Activity</button>
                 <ul id="activityList"></ul>
                 <button id="endProcess">End Process</button>
             </div>
@@ -232,198 +204,145 @@
         <!-- History Section -->
         <section id="historySection" class="hidden">
             <h2>History</h2>
-            <div id="historyList"></div>
+            <ul id="historyList"></ul>
             <button id="clearHistory" style="background-color: red; color: white; margin-top: 1em;">Clear All History</button>
         </section>
+
+        <!-- Modals -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <label id="modalLabel"></label>
+                <input type="text" id="modalInput">
+                <button id="modalButton">Next</button>
+            </div>
+        </div>
     </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const farmingForm = document.getElementById('farmingForm');
+            const modal = document.getElementById('modal');
+            const modalLabel = document.getElementById('modalLabel');
+            const modalInput = document.getElementById('modalInput');
+            const modalButton = document.getElementById('modalButton');
+            const addActivityButton = document.getElementById('addActivityButton');
             const activityList = document.getElementById('activityList');
-            const historyList = document.getElementById('historyList');
+            const endProcessButton = document.getElementById('endProcess');
             const totalCostEl = document.getElementById('totalCost');
             const totalIncomeEl = document.getElementById('totalIncome');
             const totalProfitEl = document.getElementById('totalProfit');
-            const endProcessButton = document.getElementById('endProcess');
-            const clearHistoryButton = document.getElementById('clearHistory');
-            const dashboardLink = document.getElementById('dashboardLink');
             const historyLink = document.getElementById('historyLink');
-            const dashboardSection = document.querySelector('.dashboard-container');
+            const dashboardLink = document.getElementById('dashboardLink');
             const historySection = document.getElementById('historySection');
-
-            let currentActivities = [];
-            let history = [];
-
+            const historyList = document.getElementById('historyList');
+            const clearHistoryButton = document.getElementById('clearHistory');
             let totalCost = 0;
             let totalIncome = 0;
             let totalProfit = 0;
 
-            // Function to check if localStorage is available
-            const isLocalStorageAvailable = () => {
-                try {
-                    const testKey = 'test';
-                    localStorage.setItem(testKey, 'testValue');
-                    localStorage.removeItem(testKey);
-                    return true;
-                } catch (e) {
-                    return false;
+            let currentActivities = [];
+            let history = JSON.parse(localStorage.getItem('farmingHistory')) || [];
+
+            let currentStep = 0;
+            let newActivity = {};
+
+            const fields = [
+                { label: 'Crop Planted:', field: 'crop' },
+                { label: 'Fertilizer Used:', field: 'fertilizer' },
+                { label: 'Cost (in USD):', field: 'cost', type: 'number' },
+                { label: 'Selling Price (in USD):', field: 'sellPrice', type: 'number' },
+            ];
+
+            const openModal = () => {
+                modal.style.display = 'flex';
+                modalInput.value = '';
+                modalInput.focus();
+            };
+
+            const closeModal = () => {
+                modal.style.display = 'none';
+            };
+
+            const nextStep = () => {
+                if (currentStep < fields.length) {
+                    modalLabel.textContent = fields[currentStep].label;
+                    modalInput.setAttribute('type', fields[currentStep].type || 'text');
+                    openModal();
+                } else {
+                    newActivity.income = parseFloat(newActivity.sellPrice);
+                    newActivity.cost = parseFloat(newActivity.cost);
+                    currentActivities.push(newActivity);
+                    totalCost += newActivity.cost;
+                    totalIncome += newActivity.income;
+                    totalProfit = totalIncome - totalCost;
+                    updateDashboard();
+                    closeModal();
+                    currentStep = 0;
+                    newActivity = {};
                 }
             };
 
-            // Load history from localStorage if available
-            if (isLocalStorageAvailable()) {
-                history = JSON.parse(localStorage.getItem('history')) || [];
-            } else {
-                alert('Local storage is not available on this device. History will not be saved.');
-            }
+            const updateDashboard = () => {
+                activityList.innerHTML = '';
+                currentActivities.forEach(activity => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${activity.crop}, ${activity.fertilizer} - Cost: $${activity.cost}, Income: $${activity.income}`;
+                    activityList.appendChild(listItem);
+                });
 
-            const renderAnalysis = () => {
-                totalProfit = totalIncome - totalCost;
                 totalCostEl.textContent = totalCost.toFixed(2);
                 totalIncomeEl.textContent = totalIncome.toFixed(2);
                 totalProfitEl.textContent = totalProfit.toFixed(2);
             };
 
-            const renderActivities = () => {
-                activityList.innerHTML = '';
-                currentActivities.forEach((activity, index) => {
-                    const li = document.createElement('li');
-                    li.textContent = `${index + 1}. ${activity.crop} planted with ${activity.fertilizer}, Cost: $${activity.cost.toFixed(2)}, Sold for: $${activity.sellPrice.toFixed(2)}`;
-                    activityList.appendChild(li);
+            const updateHistory = () => {
+                historyList.innerHTML = '';
+                history.forEach((activity, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${activity.crop}, ${activity.fertilizer} - Cost: $${activity.cost}, Income: $${activity.income}`;
+                    historyList.appendChild(listItem);
                 });
             };
 
-            farmingForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const crop = document.getElementById('crop').value.trim();
-                const fertilizer = document.getElementById('fertilizer').value.trim();
-                const cost = parseFloat(document.getElementById('cost').value);
-                const sellPrice = parseFloat(document.getElementById('sellPrice').value);
-                const startDate = document.getElementById('startDate').value;
-                const endDate = document.getElementById('endDate').value;
-
-                if (new Date(endDate) < new Date(startDate)) {
-                    alert('End Date cannot be earlier than Start Date.');
-                    return;
+            modalButton.addEventListener('click', () => {
+                const value = modalInput.value.trim();
+                if (value) {
+                    newActivity[fields[currentStep].field] = value;
+                    currentStep++;
+                    nextStep();
                 }
-
-                totalCost += cost;
-                totalIncome += sellPrice;
-
-                currentActivities.push({ crop, fertilizer, cost, sellPrice, startDate, endDate });
-                renderActivities();
-                renderAnalysis();
-
-                farmingForm.reset();
             });
+
+            addActivityButton.addEventListener('click', nextStep);
 
             endProcessButton.addEventListener('click', () => {
-                if (currentActivities.length > 0) {
-                    history.push(currentActivities);
-                    if (isLocalStorageAvailable()) {
-                        localStorage.setItem('history', JSON.stringify(history));
-                    }
-                    currentActivities = [];
-                    totalCost = 0;
-                    totalIncome = 0;
-                    totalProfit = 0;
-                    renderActivities();
-                    renderAnalysis();
-                    renderHistory();
-                } else {
-                    alert('No activities to end.');
-                }
+                history.push(...currentActivities);
+                localStorage.setItem('farmingHistory', JSON.stringify(history));
+                currentActivities = [];
+                totalCost = 0;
+                totalIncome = 0;
+                totalProfit = 0;
+                updateDashboard();
+                updateHistory();
+                alert('Process ended. Activities moved to history.');
             });
-
-            const deleteHistoryEntry = (index) => {
-                if (confirm(`Are you sure you want to delete Process ${index + 1}?`)) {
-                    history.splice(index, 1);
-                    if (isLocalStorageAvailable()) {
-                        localStorage.setItem('history', JSON.stringify(history));
-                    }
-                    renderHistory();
-                }
-            };
 
             clearHistoryButton.addEventListener('click', () => {
-                if (confirm('Are you sure you want to clear all history?')) {
-                    history = [];
-                    if (isLocalStorageAvailable()) {
-                        localStorage.removeItem('history');
-                    }
-                    renderHistory();
-                }
-            });
-
-            const renderHistory = () => {
-                historyList.innerHTML = '';
-                if (history.length === 0) {
-                    historyList.innerHTML = '<p>No history available.</p>';
-                    return;
-                }
-
-                history.forEach((process, index) => {
-                    const processDiv = document.createElement('div');
-                    processDiv.classList.add('history-process');
-
-                    const header = document.createElement('h3');
-                    header.textContent = `Process ${index + 1}`;
-                    processDiv.appendChild(header);
-
-                    const activitiesUl = document.createElement('ul');
-                    process.forEach((activity, idx) => {
-                        const activityLi = document.createElement('li');
-                        activityLi.innerHTML = `
-                            <strong>Activity ${idx + 1}:</strong><br>
-                            Crop Planted: ${activity.crop}<br>
-                            Fertilizer Used: ${activity.fertilizer}<br>
-                            Cost: $${activity.cost.toFixed(2)}<br>
-                            Start Date: ${activity.startDate}<br>
-                            End Date: ${activity.endDate}<br>
-                            Selling Price: $${activity.sellPrice.toFixed(2)}
-                        `;
-                        activitiesUl.appendChild(activityLi);
-                    });
-                    processDiv.appendChild(activitiesUl);
-
-                    // Calculate totals for the process
-                    const totalCost = process.reduce((sum, a) => sum + a.cost, 0);
-                    const totalIncome = process.reduce((sum, a) => sum + a.sellPrice, 0);
-                    const totalProfit = totalIncome - totalCost;
-
-                    const analysisP = document.createElement('p');
-                    analysisP.innerHTML = `
-                        <strong>Total Cost:</strong> $${totalCost.toFixed(2)}<br>
-                        <strong>Total Income:</strong> $${totalIncome.toFixed(2)}<br>
-                        <strong>Total Profit:</strong> $${totalProfit.toFixed(2)}
-                    `;
-                    processDiv.appendChild(analysisP);
-
-                    const deleteButton = document.createElement('button');
-                    deleteButton.textContent = 'Delete Process';
-                    deleteButton.style.backgroundColor = 'red';
-                    deleteButton.style.color = 'white';
-                    deleteButton.addEventListener('click', () => deleteHistoryEntry(index));
-                    processDiv.appendChild(deleteButton);
-
-                    historyList.appendChild(processDiv);
-                });
-            };
-
-            dashboardLink.addEventListener('click', () => {
-                dashboardSection.classList.remove('hidden');
-                historySection.classList.add('hidden');
+                history = [];
+                localStorage.removeItem('farmingHistory');
+                updateHistory();
+                alert('History cleared.');
             });
 
             historyLink.addEventListener('click', () => {
-                dashboardSection.classList.add('hidden');
                 historySection.classList.remove('hidden');
-                renderHistory();
+                updateHistory();
             });
 
-            // Initial render of the history
-            renderHistory();
+            dashboardLink.addEventListener('click', () => {
+                historySection.classList.add('hidden');
+            });
+
+            updateHistory();
         });
     </script>
 </body>
