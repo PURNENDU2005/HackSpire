@@ -343,7 +343,7 @@
                     update(ref(database, 'users/' + user.uid), {
                         last_login: new Date().toLocaleString()
                     }).then(() => {
-                        window.location.href = 'index.html';
+                        window.location.href = 'index2.html';
                     }).catch((error) => {
                         console.error('Error updating last login time:', error);
                     });
