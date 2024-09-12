@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer's Portal - Sign In & Register</title>
+   <style>
+    /* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('farm-background.jpg') no-repeat center center/cover;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    padding: 30px;
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+p {
+    margin-top: 10px;
+    text-align: center;
+}
+
+a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media only screen and (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    input, button {
+        font-size: 14px;
+    }
+}
+
+
+   </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container sign-in-container">
+            <form action="#" method="post">
+                <h1>Sign In</h1>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button>Sign In</button>
+                <p>Don't have an account? <a href="#" id="register-link">Register here</a></p>
+            </form>
+        </div>
+        <div class="form-container register-container" style="display: none;">
+            <form action="#" method="post">
+                <h1>Register</h1>
+                <input type="text" placeholder="Name" required>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <input type="password" placeholder="Confirm Password" required>
+                <button>Register</button>
+                <p>Already have an account? <a href="#" id="signin-link">Sign In here</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const registerLink = document.getElementById('register-link');
+        const signinLink = document.getElementById('signin-link');
+        const signInContainer = document.querySelector('.sign-in-container');
+        const registerContainer = document.querySelector('.register-container');
+
+        registerLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            signInContainer.style.display = 'none';
+            registerContainer.style.display = 'block';
+        });
+
+        signinLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            registerContainer.style.display = 'none';
+            signInContainer.style.display = 'block';
+        });
+    </script>
+</body>
+</html>

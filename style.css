@@ -1,0 +1,604 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(14, 14, 14);
+  }
+  
+  
+  
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0.2cm;
+    padding: 20px 100px;
+    background: rgba(0, 0, 0, 0.219);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 14px 15px -1px rgba(0, 0, 0, 0.163),
+      0 6px 10px -1px rgba(0, 0, 0, 0.111);
+    /* border-bottom: 0.1px solid rgba(255, 255, 255, 0.18); */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+    transition: 0.55s ease transform;
+  }
+  
+  .hidden {
+    transform: translateY(-100%);
+  }
+  
+  .logo {
+    font-size: 32px;
+    color: aliceblue;
+    text-decoration: none;
+    font-weight: 700;
+    margin-left: 5px;
+  }
+  
+  .navbar a {
+    font-size: 23px;
+    color: rgb(255, 255, 255);
+    font-weight: 900;
+    text-decoration: none;
+    margin-left: 50px;
+    background: rgba(0, 0, 0, 0);
+    z-index: 111;
+  }
+  
+  .navbar {
+    margin-right: 4cm;
+  }
+  
+  .hero {
+    width: 100%;
+    height: auto;
+    background-image: url(new.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+  
+  }
+  
+  .text {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 100px;
+    font-weight: 900;
+    color: aliceblue;
+    margin: 0;
+  }
+  
+  
+  .hero-text {
+    margin: 1cm;
+    margin-top: 3cm;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 0;
+  }
+  
+  .headline {
+    width: 25cm;
+    height: auto;
+  }
+  
+  .tutu {
+    width: 15cm;
+    height: auto;
+  
+  }
+  
+  
+  
+  
+  
+  .button {
+    width: 300px;
+    line-height: 2.5;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: .75rem;
+    color: #fff;
+    border-radius: 10rem;
+    font-weight: 900;
+    padding: 0;
+    padding-left: 25px;
+    /* padding: .75rem 1.5rem; */
+    /* padding-left: 20px; */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background-color .3s;
+    background-color: rgba(15, 154, 22, 0.475);
+    border: 2px solid white;
+    align-items: center;
+    display: flex;
+    justify-items: center;
+    text-align: center;
+  }
+  
+  .button__icon-wrapper {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    position: relative;
+    color: var(--clr);
+    background-color: #fff;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+  
+  .button:hover {
+    background-color: #000;
+  }
+  
+  .button:hover .button__icon-wrapper {
+    color: #000;
+  }
+  
+  .button__icon-svg--copy {
+    position: absolute;
+    transform: translate(-150%, 150%);
+  }
+  
+  .button:hover .button__icon-svg:first-child {
+    transition: transform .3s ease-in-out;
+    transform: translate(150%, -150%);
+  }
+  
+  .button:hover .button__icon-svg--copy {
+    transition: transform .3s ease-in-out .1s;
+    transform: translate(0);
+  }
+  
+  .learn {
+    width: 100%;
+    height: auto;
+    background-color: rgb(14, 14, 14);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+  
+  }
+  
+  
+  
+  
+  .learn-sub {
+    color: #fff;
+    display: flex;
+    justify-content: space-evenly;
+    /* justify-items: center; */
+    gap: 5cm;
+  
+  }
+  
+  .item1 {
+    background-color: rgba(169, 169, 169, 0);
+    width: 18cm;
+    height: 10cm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 1cm;
+  }
+  
+  .item2 {
+    width: 11cm;
+    height: 15.5cm;
+    border: 2px solid white;
+    right: 0;
+    background-color: rgba(33, 71, 33, 0.427);
+  }
+  
+  #text {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 300;
+    word-spacing: 10px;
+    line-height: 30px;
+  }
+  
+  .item2-img {
+    background-image: url(https://www.fieldbee.com/wp-content/uploads/2020/10/farming-technology2.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 11cm;
+    height: 15cm;
+    margin-right: 0;
+    padding-right: 0;
+    position: absolute;
+    right: 0;
+    border: 1px solid white;
+  
+  }
+  
+  .service {
+    display: flex;
+    justify-content: space-between;
+    justify-items: center;
+    left: 0;
+    margin: 0;
+    padding: 0;
+  }
+  
+  
+  
+  
+  
+  .cssbuttons-io-button {
+    background: #05560694;
+    color: white;
+    font-family: inherit;
+    padding: 0.35em;
+    padding-left: 1.2em;
+    font-size: 17px;
+    font-weight: 500;
+    border-radius: 0.9em;
+    border: none;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    box-shadow: inset 0 0 1.6em -0.6em #00ff00;
+    overflow: hidden;
+    position: relative;
+    height: 2.8em;
+    padding-right: 3.3em;
+    cursor: pointer;
+  }
+  
+  .cssbuttons-io-button .icon {
+    background: rgb(219, 216, 216);
+    margin-left: 1em;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.2em;
+    width: 2.2em;
+    border-radius: 0.7em;
+    box-shadow: 0.1em 0.1em 0.6em 0.2em #11db65;
+    right: 0.3em;
+    transition: all 0.3s;
+  }
+  
+  .cssbuttons-io-button:hover .icon {
+    width: calc(100% - 0.6em);
+  }
+  
+  .cssbuttons-io-button .icon svg {
+    width: 1.1em;
+    transition: transform 0.3s;
+    color: #00ff33;
+  }
+  
+  .cssbuttons-io-button:hover .icon svg {
+    transform: translateX(0.1em);
+  }
+  
+  .cssbuttons-io-button:active .icon {
+    transform: scale(0.95);
+  }
+  
+  .tvv {
+    width: 5cm;
+    height: 3cm;
+    border: 1px solid white;
+    border-radius: 10px;
+  }
+  
+  .image-container {
+    position: relative;
+  }
+  
+  .image-container img {
+    transition: filter 0.3s ease-in-out;
+  }
+  
+  .image-container:hover img {
+    filter: blur(5px);
+  }
+  
+  .image-container .overlay {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    font-size: 22px;
+    color: rgb(255, 255, 255);
+    font-weight: 900;
+  }
+  
+  .image-container:hover .overlay {
+    opacity: 1;
+  }
+  
+  #kk {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: 900;
+  }
+  
+  
+  
+  
+  .Farm {
+    width: 100%;
+    height: 100vh;
+    background-image: url(https://agromonitoring.com/themes/agri/assets/img/agro_api_1.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    font-weight: 900;
+    text-align: center;
+  }
+  
+  .Farm h1 {
+    text-align: center;
+    align-items: center;
+    padding: 6cm;
+    font-size: 70px;
+  }
+  
+  .About {
+    background-image: url(img/forest.png);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .about,
+  .testimonial,
+  .gallery,
+  .contact {
+    padding: 40px 20px;
+    margin: 20px auto;
+    max-width: 1200px;
+    background: #9e9c9c2f;
+    backdrop-filter: blur(10px);
+    /* Apply blur effect */
+    -webkit-backdrop-filter: blur(10px);
+    /* Safari support */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-out forwards;
+  }
+  
+  .about h2,
+  .testimonial h2,
+  .gallery h2,
+  .contact h2 {
+    font-size: 2rem;
+    color: #77ff97;
+    margin-bottom: 20px;
+    animation: fadeInRight 1s ease-out;
+  }
+  
+  .about p {
+    font-size: 1.2rem;
+    color: #ffffff;
+    line-height: 1.8;
+    animation: fadeIn 2s ease-in-out;
+  }
+  
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  
+  .gallery img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .gallery img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .testimonial {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .testimonial .slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  .testimonial .slide {
+    min-width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    text-align: center;
+    background: #5f5f5f3f;
+    backdrop-filter: blur(10px);
+    /* Apply blur effect */
+    -webkit-backdrop-filter: blur(10px);
+    /* Safari support */
+    border-radius: 10px;
+    animation: slideInFromLeft 1s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .testimonial img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 1px solid #c6cdc8;
+    transition: transform 0.3s ease;
+  }
+  
+  .testimonial img:hover {
+    transform: scale(1.1);
+  }
+  
+  .testimonial blockquote {
+    margin: 0;
+    font-style: italic;
+    color: #f6f6f6;
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
+  
+  .testimonial footer {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #6dff8f;
+  }
+  
+  .contact {
+    background: #43434368;
+    backdrop-filter: blur(10px);
+    /* Apply blur effect */
+    -webkit-backdrop-filter: blur(10px);
+    /* Safari support */
+    border: 1px solid #ddd;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .contact form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .contact input,
+  .contact textarea {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  .contact button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .contact button:hover {
+    background-color: #218838;
+  }
+  
+  footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  footer p {
+    margin: 0;
+    font-size: 1rem;
+    animation: fadeIn 2s ease-in-out;
+  }
+  
+  /* Animations */
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+  
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+  
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+  
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+  
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes zoomIn {
+    from {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+  
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideInFromLeft {
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+  
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
